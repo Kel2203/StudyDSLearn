@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,7 +26,6 @@ import javax.persistence.Table;
 public abstract class Lesson implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,10 +36,8 @@ public abstract class Lesson implements Serializable {
 	@JoinColumn(name = "section_id")
 	private Section section;
 	
-	
-//	@OneToMany(mappedBy = "lesson")
-//	private List<Deliver> deliveries = new ArrayList<>();
-	
+	@OneToMany(mappedBy = "lesson")
+	private List<Deliver> deliveries = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(name = "tb_lessons_done",
@@ -49,10 +47,7 @@ public abstract class Lesson implements Serializable {
 				@JoinColumn(name = "offer_id")
 		}
 	)
-	private Set<Enrollment> EnrollmentsDone = new HashSet<>();
-	
-	
-	
+	private Set<Enrollment> enrollmentsDone = new HashSet<>();
 	
 	public Lesson() {
 	}
@@ -98,7 +93,11 @@ public abstract class Lesson implements Serializable {
 	}
 
 	public Set<Enrollment> getEnrollmentsDone() {
-		return EnrollmentsDone;
+		return enrollmentsDone;
+	}
+
+	public List<Deliver> getDeliveries() {
+		return deliveries;
 	}
 
 	@Override
@@ -118,6 +117,7 @@ public abstract class Lesson implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
+	
 
 	
 	
