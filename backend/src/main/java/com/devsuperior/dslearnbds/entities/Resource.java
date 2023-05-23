@@ -3,34 +3,45 @@ package com.devsuperior.dslearnbds.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.devsuperior.dslearnbds.entities.enums.ResourceType;
 
+@Entity
+@Table(name = "tb_resource")
 public class Resource implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private String description;
 	private Integer position;
 	private String imgUri;
 	private ResourceType type;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "offer_id")
 	private Offer offer;
 
 	@OneToMany(mappedBy = "resource")
 	private List<Section> sections = new ArrayList<>();
-	
+
 	public Resource() {
 	}
 
 	public Resource(Long id, String title, String description, Integer position, String imgUri, ResourceType type,
-			Offer offer) {
+					Offer offer) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -98,27 +109,15 @@ public class Resource implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Resource)) return false;
+		Resource resource = (Resource) o;
+		return Objects.equals(getId(), resource.getId());
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Resource other = (Resource) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public int hashCode() {
+		return Objects.hash(getId());
 	}
 }

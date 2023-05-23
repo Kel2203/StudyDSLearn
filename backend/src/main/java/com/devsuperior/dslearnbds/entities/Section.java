@@ -1,14 +1,8 @@
 package com.devsuperior.dslearnbds.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_section")
@@ -22,20 +16,21 @@ public class Section implements Serializable {
 	private String description;
 	private Integer position;
 	private String imgUri;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "resource_id")
 	private Resource resource;
-	
+
+
 	@ManyToOne
 	@JoinColumn(name = "prerequisite_id")
 	private Section prerequisite;
-	
+
 	public Section() {
 	}
 
 	public Section(Long id, String title, String description, Integer position, String imgUri, Resource resource,
-			Section prerequisite) {
+				   Section prerequisite) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -120,10 +115,7 @@ public class Section implements Serializable {
 			return false;
 		Section other = (Section) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 }
