@@ -1,9 +1,12 @@
 package com.devsuperior.dslearnbds.services.exception;
 
-public class DatabaseException extends RuntimeException {
+public class ForbiddenException extends RuntimeException {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	public DatabaseException (String msg) {
+	public ForbiddenException (String msg) {
 		super(msg);
 	}
 
